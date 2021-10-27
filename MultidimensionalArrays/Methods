@@ -1,0 +1,98 @@
+    private static boolean matricesAreEqual(int[][] firstMatrix, int[][] secondMatrix) {
+        if (firstMatrix.length != secondMatrix.length) {
+            return false;
+        }
+        for (int row = 0; row < firstMatrix.length; row++) {
+            int[] firstArray = firstMatrix[row];
+            int[] secondArray = secondMatrix[row];
+
+            if (firstArray.length != secondArray.length) {
+                return false;
+            }
+            for (int col = 0; col < firstArray.length; col++) {
+                if (firstArray[col] != secondArray[col]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static int[] readArray(String line, String regex) {
+        return Arrays.stream(line.split(regex))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+    }
+
+    public static int[][] readMatrix(int rows, int cols, Scanner scanner, String pattern) {
+        int[][] matrix = new int[rows][cols];
+
+        for (int row = 0; row < rows; row++) {
+            matrix[row] = readArray(scanner.nextLine(), pattern);
+        }
+        return matrix;
+    }
+
+    **** Read Char Matrix ****
+
+    public static char[][] readMatrix(int rows, int cols, Scanner scanner) {
+        char[][] matrix = new char[rows][cols];
+
+        for (int row = 0; row < rows; row++) {
+            String[] tokens = scanner.nextLine().split("\\s+");
+            for (int col = 0; col < tokens.length; col++) {
+                matrix[row][col] = tokens[col].charAt(0);
+            }
+        }
+        return matrix;
+    }
+
+    public static void printMatrix(int[][] matrix) {
+        for (int[] arr : matrix) {
+            for (int element : arr) {
+                System.out.print(element + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static List<int[]> findNumberOccurrences(int[][] matrix, int number) {
+        List<int[]> out = new ArrayList<>();
+
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix[row].length; col++) {
+                int current = matrix[row][col];
+                if (current == number) {
+                    out.add(new int[]{row, col});
+                }
+            }
+        }
+        return out;
+    }
+
+    private static int getElementsSum(int[][] matrix) {
+        int sum = 0;
+
+        for (int[] ints : matrix) {
+            for (int col = 0; col < ints.length; col++) {
+                sum += ints[col];
+            }
+        }
+
+        return sum;
+    }
+
+    private static int getElementsSumByStream(int[][] matrix) {
+        return Arrays.stream(matrix)
+                .flatMapToInt(Arrays::stream)
+                .sum();
+    }
+
+
+    public static boolean isInBounds(int row, int col, int[][] matrix) {
+        return row >= 0 && row < matrix.length && col >= 0 && col < matrix[row].length;
+    }
+
+    public static boolean isOutBounds(int row, int col, int[][] matrix) {
+        return !isInBounds(row, col, matrix);
+    }
